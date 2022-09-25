@@ -9,6 +9,8 @@ class Controls {
     }
     //private method
     #addKeyboardListeners() {
+        //arrow "=>" is the same as function(event)
+        //meaning onkeydown, this function is called
         document.onkeydown = (event) => {
             switch (event.key) {
                 case "ArrowLeft":

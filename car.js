@@ -8,6 +8,15 @@ class Car {
 
         this.controls = new Controls()
     }
+    //check if a control is pressed, and move
+    update() {
+        if (this.controls.forward) {
+            this.y -= 2; //y increases as you go down
+        }
+        if (this.controls.reverse) {
+            this.y += 2;
+        }
+    }
     //method that takes context as param
     draw(ctx) {
         ctx.beginPath();
