@@ -5,6 +5,8 @@ class Car {
         this.y = y;
         this.width = width;
         this.height = height;
+
+        this.controls = new Controls()
     }
     //method that takes context as param
     draw(ctx) {
