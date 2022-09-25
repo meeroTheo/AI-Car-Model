@@ -12,6 +12,8 @@ class Car {
         this.maxSpeed = 3;
         this.friction = 0.05;
 
+        this.angle = 0;
+
         this.controls = new Controls()
     }
     //check if a control is pressed, and move
@@ -37,20 +39,36 @@ class Car {
         if (this.speed < 0) {
             this.speed += this.friction;
         }
+        //car moves with little friction
+        //change the speed to 0
+        if (Math.abs(this.speed) < this.friction) {
+            this.speed = 0;
+        }
+        //left and right controls
+        if (this.controls.left) {
+            this.angle += 0.03;
+        }
+        if (this.controls.right) {
+            this.angle -= 0.03;
+        }
         this.y -= this.speed;
     }
     //method that takes context as param
     draw(ctx) {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(-this.angle);
         ctx.beginPath();
         //draw the car as a rectangle
         //it starts at x,y
         //the x is the center of the car
         ctx.rect(
-            this.x - this.width / 2,
-            this.y - this.height / 2,
+            - this.width / 2,
+            - this.height / 2,
             this.width,
             this.height
         );
         ctx.fill();
+        ctx.restore();
     }
 }
