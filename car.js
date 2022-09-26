@@ -18,6 +18,10 @@ class Car {
     }
     //check if a control is pressed, and move
     update() {
+        this.#move();
+    }
+
+    #move() {
         if (this.controls.forward) {
             this.speed += this.acceleration; //y increases as you go down
         }
@@ -66,8 +70,8 @@ class Car {
         this.y -= Math.cos(this.angle) * this.speed;
 
         //this.y -= this.speed;
+        //method that takes context as param
     }
-    //method that takes context as param
     draw(ctx) {
         ctx.save();
         ctx.translate(this.x, this.y);
