@@ -44,14 +44,28 @@ class Car {
         if (Math.abs(this.speed) < this.friction) {
             this.speed = 0;
         }
-        //left and right controls
-        if (this.controls.left) {
-            this.angle += 0.03;
+
+        if (this.speed != 0) {
+            //calculate a flip, the value is 1 or minus 1 depending on the speed
+            //this flips the controls backwards
+            //this doesnt do anything when the velocity is positive
+            const flip = this.speed < 0 ? -1 : 1;
+            //left and right controls
+            if (this.controls.left) {
+                this.angle += 0.03 * flip;
+            }
+            if (this.controls.right) {
+                this.angle -= 0.03 * flip;
+            }
         }
-        if (this.controls.right) {
-            this.angle -= 0.03;
-        }
-        this.y -= this.speed;
+
+        //car will move in the direction of this angle
+        //based off the unit circle, x translated by speed
+
+        this.x -= Math.sin(this.angle) * this.speed;
+        this.y -= Math.cos(this.angle) * this.speed;
+
+        //this.y -= this.speed;
     }
     //method that takes context as param
     draw(ctx) {
