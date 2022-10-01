@@ -12,6 +12,11 @@ class Road {
         this.bottom = infinity; //bottom of the road
 
     }
+    //tells us what is the center of a given lane
+    getLaneCenter(laneIndex) {
+        const laneWidth = this.width / this.laneCount; //width of each lane
+        return this.left + laneWidth / 2 + Math.min(laneIndex, this.laneCount - 1) * laneWidth; //center of the lane
+    }
 
     draw(ctx) {
 
@@ -24,6 +29,11 @@ class Road {
             const x = lerp(this.left,
                 this.right, i / this.laneCount); //x coordinate of the line
 
+            if (i > 0 && i < this.laneCount) {
+                ctx.setLineDash([20, 20]); //dashed line after every 20 pixels
+            } else {
+                ctx.setLineDash([]); //no dashes
+            }
             //make a vertical line on the left side of the screen
             ctx.beginPath(); //start drawing
             ctx.moveTo(x, this.top); //start at the top left
@@ -34,12 +44,3 @@ class Road {
     }
 }
 
-function lerp(A, B, t) {
-    //You have the value of A, and the difference between B and A multiplied by percentage t
-    //when t is 0, you get A
-    //when t is 1, you get B
-    //when t is 0.5, you get the midpoint between A and B
-    // 0 and 1 give you the two endpoints
-    return A + (B - A) * t; //linear interpolation
-
-}
