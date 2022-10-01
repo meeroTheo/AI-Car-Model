@@ -11,6 +11,16 @@ class Road {
         this.top = -infinity; //top of the road
         this.bottom = infinity; //bottom of the road
 
+        const topLeft = { x: this.left, y: this.top };
+        const topRight = { x: this.right, y: this.top };
+        const bottomLeft = { x: this.left, y: this.bottom };
+        const bottomRight = { x: this.right, y: this.bottom };
+        //put a segment in the array
+        this.borders = [
+            [topLeft, bottomLeft],
+            [topRight, bottomRight]
+        ];
+
     }
     //tells us what is the center of a given lane
     getLaneCenter(laneIndex) {
@@ -23,17 +33,14 @@ class Road {
         ctx.lineWidth = 5; //set width of the road
         ctx.strokeStyle = 'white'; //set color of the road
 
-        for (let i = 0; i <= this.laneCount; i++) {
+        for (let i = 1; i <= this.laneCount - 1; i++) {
             //what is the x coordinate of each of these vertical lines
             //we get these by linear interpolation
             const x = lerp(this.left,
                 this.right, i / this.laneCount); //x coordinate of the line
 
-            if (i > 0 && i < this.laneCount) {
-                ctx.setLineDash([20, 20]); //dashed line after every 20 pixels
-            } else {
-                ctx.setLineDash([]); //no dashes
-            }
+
+            ctx.setLineDash([20, 20]); //dashed line after every 20 pixels
             //make a vertical line on the left side of the screen
             ctx.beginPath(); //start drawing
             ctx.moveTo(x, this.top); //start at the top left
@@ -41,6 +48,14 @@ class Road {
             ctx.stroke(); //draw the line
 
         }
+        ctx.setLineDash([]);
+        this.borders.forEach(border => { //for each border
+            ctx.beginPath(); //start drawing
+            ctx.moveTo(border[0].x, border[0].y); //start at the top left
+            ctx.lineTo(border[1].x, border[1].y); //draw to the bottom left
+            ctx.stroke(); //draw the line
+        });
     }
+
 }
 
