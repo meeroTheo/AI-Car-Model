@@ -4,7 +4,7 @@ canvas.width = 200;
 //Reference to canvas context that contains
 //all the drawing methods
 const ctx = canvas.getContext("2d");
-const road = new Road(canvas.width / 2, canvas.width);
+const road = new Road(canvas.width / 2, canvas.width * 0.9);
 const car = new Car(100, 100, 30, 50);
 
 //start to animate the car

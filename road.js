@@ -14,18 +14,32 @@ class Road {
     }
 
     draw(ctx) {
+
         ctx.lineWidth = 5; //set width of the road
         ctx.strokeStyle = 'white'; //set color of the road
 
-        //make a vertical line on the left side of the screen
-        ctx.beginPath(); //start drawing
-        ctx.moveTo(this.left, this.top); //start at the top left
-        ctx.lineTo(this.left, this.bottom); //draw to the bottom left
-        ctx.stroke(); //draw the line
+        for (let i = 0; i <= this.laneCount; i++) {
+            //what is the x coordinate of each of these vertical lines
+            //we get these by linear interpolation
+            const x = lerp(this.left,
+                this.right, i / this.laneCount); //x coordinate of the line
 
-        ctx.beginPath(); //start drawing
-        ctx.moveTo(this.right, this.top); //start at the top right
-        ctx.lineTo(this.right, this.bottom); //draw to the bottom right
-        ctx.stroke(); //draw the line
+            //make a vertical line on the left side of the screen
+            ctx.beginPath(); //start drawing
+            ctx.moveTo(x, this.top); //start at the top left
+            ctx.lineTo(x, this.bottom); //draw to the bottom left
+            ctx.stroke(); //draw the line
+
+        }
     }
+}
+
+function lerp(A, B, t) {
+    //You have the value of A, and the difference between B and A multiplied by percentage t
+    //when t is 0, you get A
+    //when t is 1, you get B
+    //when t is 0.5, you get the midpoint between A and B
+    // 0 and 1 give you the two endpoints
+    return A + (B - A) * t; //linear interpolation
+
 }
