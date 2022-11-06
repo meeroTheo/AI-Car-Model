@@ -13,15 +13,52 @@ class Car {
         this.friction = 0.05;
         this.sensor=new Sensor(this); //instance of sensor class
         this.angle = 0;
+        this.damaged=false;
 
         this.controls = new Controls()
     }
     //check if a control is pressed, and move
     update(roadBorders) {
-        this.#move();
+        if (!this.damaged) {
+            this.#move();
+            this.polygon=this.#createPolygon();
+            this.damaged=this.#assessDamage(roadBorders);
+        }
         this.sensor.update(roadBorders);
     }
 
+    #assessDamage(roadBorders){
+        for(let i=0;i<roadBorders.length;i++){
+            if(polysIntersect(this.polygon,roadBorders[i])){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    #createPolygon() {
+        const points=[]; //one point per corner of the car
+        //we need to find the corners of the car (see image 1)
+        const rad=Math.hypot(this.width,this.height)/2; //hypotenuse of the car
+        const alpha= Math.atan2(this.width,this.height);  //the tangent is the with divided by the height (use arc tangent)
+        points.push({//top right
+            x:this.x-Math.sin(this.angle-alpha)*rad,
+            y:this.y-Math.cos(this.angle-alpha)*rad
+        });
+        points.push({
+            x:this.x-Math.sin(this.angle+alpha)*rad,
+            y:this.y-Math.cos(this.angle+alpha)*rad
+        });
+        points.push({
+            x:this.x-Math.sin(Math.PI+this.angle-alpha)*rad,
+            y:this.y-Math.cos(Math.PI+this.angle-alpha)*rad
+        });
+        points.push({
+            x:this.x-Math.sin(Math.PI+this.angle+alpha)*rad,
+            y:this.y-Math.cos(Math.PI+this.angle+alpha)*rad
+        });
+        return points;
+    }
     #move() {
         if (this.controls.forward) {
             this.speed += this.acceleration; //y increases as you go down
@@ -74,21 +111,18 @@ class Car {
         //method that takes context as param
     }
     draw(ctx) {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(-this.angle);
+        if(this.damaged){
+            ctx.fillStyle="gray";
+        }else{
+            ctx.fillStyle="black";
+        }
         ctx.beginPath();
-        //draw the car as a rectangle
-        //it starts at x,y
-        //the x is the center of the car
-        ctx.rect(
-            - this.width / 2,
-            - this.height / 2,
-            this.width,
-            this.height
-        );
+        ctx.moveTo(this.polygon[0].x,this.polygon[0].y);
+        for(let i=1;i<this.polygon.length;i++){
+            ctx.lineTo(this.polygon[i].x,this.polygon[i].y);
+        }
         ctx.fill();
-        ctx.restore();
-        this.sensor.draw(ctx); //the car has the responsibility to draw the sensor
+
+        this.sensor.draw(ctx);
     }
 }
