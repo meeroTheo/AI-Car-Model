@@ -11,7 +11,7 @@ class Car {
 
         this.maxSpeed = 3;
         this.friction = 0.05;
-
+        this.sensor=new Sensor(this); //instance of sensor class
         this.angle = 0;
 
         this.controls = new Controls()
@@ -19,6 +19,7 @@ class Car {
     //check if a control is pressed, and move
     update() {
         this.#move();
+        this.sensor.update();
     }
 
     #move() {
@@ -88,5 +89,6 @@ class Car {
         );
         ctx.fill();
         ctx.restore();
+        this.sensor.draw(ctx); //the car has the responsibility to draw the sensor
     }
 }
