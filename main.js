@@ -15,6 +15,7 @@ function animate() {
 
     canvas.height = window.innerHeight;
 
+    //make it so that the car is always in the center of the screen
     ctx.save();
     ctx.translate(0, -car.y + canvas.height * 0.7);
 

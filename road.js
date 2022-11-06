@@ -49,6 +49,7 @@ class Road {
 
         }
         ctx.setLineDash([]);
+        //this is to make everything more consistent
         this.borders.forEach(border => { //for each border
             ctx.beginPath(); //start drawing
             ctx.moveTo(border[0].x, border[0].y); //start at the top left
