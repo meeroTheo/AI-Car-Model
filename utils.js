@@ -30,16 +30,16 @@ function getIntersection(A,B,C,D){
 function polysIntersect(poly1, poly2){
     for(let i=0;i<poly1.length;i++){
         for(let j=0;j<poly2.length;j++){
-            const touch=getIntersection(
+            const touch=getIntersection( //check if the two segments intersect
                 poly1[i],
                 poly1[(i+1)%poly1.length],
                 poly2[j],
                 poly2[(j+1)%poly2.length]
             );
             if(touch){
-                return true;
+                return true; //if there is an intersection, return true
             }
         }
     }
-    return false;
+    return false; //if we get to this point, we know that there is no intersection
 }

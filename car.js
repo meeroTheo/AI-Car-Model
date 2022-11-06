@@ -19,7 +19,7 @@ class Car {
     }
     //check if a control is pressed, and move
     update(roadBorders) {
-        if (!this.damaged) {
+        if (!this.damaged) { //if the car is not damaged
             this.#move();
             this.polygon=this.#createPolygon();
             this.damaged=this.#assessDamage(roadBorders);
@@ -117,12 +117,12 @@ class Car {
             ctx.fillStyle="black";
         }
         ctx.beginPath();
-        ctx.moveTo(this.polygon[0].x,this.polygon[0].y);
-        for(let i=1;i<this.polygon.length;i++){
+        ctx.moveTo(this.polygon[0].x,this.polygon[0].y); //move to the first point
+        for(let i=1;i<this.polygon.length;i++){ //loop through the rest of the points
             ctx.lineTo(this.polygon[i].x,this.polygon[i].y);
         }
         ctx.fill();
 
-        this.sensor.draw(ctx);
+        this.sensor.draw(ctx); //draw the sensor
     }
 }
