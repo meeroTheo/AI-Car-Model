@@ -17,9 +17,9 @@ class Car {
         this.controls = new Controls()
     }
     //check if a control is pressed, and move
-    update() {
+    update(roadBorders) {
         this.#move();
-        this.sensor.update();
+        this.sensor.update(roadBorders);
     }
 
     #move() {
