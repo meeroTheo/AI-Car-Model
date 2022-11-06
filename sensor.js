@@ -34,8 +34,10 @@ class Sensor{
         let touches=[];
         for (let i=0;i<roadBorders.length;i++){
             const touch=getIntersection(
-                ray[0],ray[1],
-                roadBorders[i][0],roadBorders[i][1]
+                ray[0],
+                ray[1],
+                roadBorders[i][0],
+                roadBorders[i][1]
             );
             if (touch){
                 touches.push(touch); //may return null if segments dont intersect
@@ -73,11 +75,12 @@ class Sensor{
                 //calculate the end point of the array
              const end={
                 //uses sin and cos because we are using the unit circle to calculate the angle
-                x:this.car.x-Math.sin(rayAngle)*this.rayLength, //x coordinate of the end point
-                y:this.car.y-Math.cos(rayAngle)*this.rayLength //y coordinate of the end point
+                x:this.car.x-
+                Math.sin(rayAngle)*this.rayLength, //x coordinate of the end point
+                y:this.car.y-
+                Math.cos(rayAngle)*this.rayLength //y coordinate of the end point
              };
              this.rays.push([start,end]); //push inside the array to form a segment (same as borders in road.js)
-
         }
     }
     //draw the rays
