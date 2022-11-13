@@ -14,7 +14,9 @@ class Car {
 
         this.angle = 0;
         this.damaged=false;
-        this.sensor = new Sensor(this); //instance of sensor class
+        if (controlType != "DUMMY") {
+            this.sensor = new Sensor(this); //instance of sensor class
+        }
         this.controls = new Controls(controlType)
     }
     //check if a control is pressed, and move
@@ -24,7 +26,10 @@ class Car {
             this.polygon=this.#createPolygon();
             this.damaged=this.#assessDamage(roadBorders);
         }
-        this.sensor.update(roadBorders);
+        if (this.sensor) {
+            this.sensor.update(roadBorders); //only update the sensor, if the property exists
+        }
+
     }
 
     #assessDamage(roadBorders){
@@ -122,7 +127,9 @@ class Car {
             ctx.lineTo(this.polygon[i].x,this.polygon[i].y);
         }
         ctx.fill();
+        if (this.sensor) {
+            this.sensor.draw(ctx); //draw the sensor
+        }
 
-        this.sensor.draw(ctx); //draw the sensor
     }
 }
