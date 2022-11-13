@@ -4,6 +4,7 @@ function lerp(A, B, t) {
     //when t is 1, you get B
     //when t is 0.5, you get the midpoint between A and B
     // 0 and 1 give you the two endpoints
+    //lerp essentially gives you a point between two endpoints based on a percentage
     return A + (B - A) * t; //linear interpolation
 
 }
