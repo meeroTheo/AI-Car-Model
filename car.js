@@ -121,11 +121,11 @@ class Car {
         //this.y -= this.speed;
         //method that takes context as param
     }
-    draw(ctx) {
+    draw(ctx, color) {
         if(this.damaged){
             ctx.fillStyle="gray";
         }else{
-            ctx.fillStyle="black";
+            ctx.fillStyle = color;
         }
         ctx.beginPath();
         ctx.moveTo(this.polygon[0].x,this.polygon[0].y); //move to the first point
