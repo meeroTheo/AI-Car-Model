@@ -12,19 +12,19 @@ class Sensor{
 
     }
 
-    update(roadBorders){
+    update(roadBorders, traffic) {
         //we cant detect whether the road borders are close or not
         this.#castRays(); //cast rays private method
         this.readings=[]; //array of readings
         for (let i=0;i<this.rays.length;i++){
             this.readings.push(
-                this.#getReading(this.rays[i],roadBorders) //add to readings array a reading
+                this.#getReading(this.rays[i], roadBorders, traffic) //add to readings array a reading
         
             );
         
         }
     }
-    #getReading(ray,roadBorders){
+    #getReading(ray, roadBorders, traffic) {
         //check to see where the array touches the road borders
         //we only have 2 borders( one ray can only touch both of them if the car goes offscreen
         //its good to consider multiple intersections 
@@ -42,6 +42,17 @@ class Sensor{
             if (touch){
                 touches.push(touch); //may return null if segments dont intersect
             }
+        }
+        //this checks for the intersection between the traffic and the car, and changes the sensor color
+        for (let i = 0; i < traffic.length; i++) {
+            const poly = traffic[i].polygon;
+            for (let j = 0; j < poly.length; j++) {
+                const value = getIntersection(ray[0], ray[1], poly[j], poly[(j + 1) % poly.length]);
+                if (value) {
+                    touches.push(value);
+                }
+            }
+
         }
         if (touches.length==0){ //no readings (dont encounter anything)
             return null;

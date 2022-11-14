@@ -20,21 +20,27 @@ class Car {
         this.controls = new Controls(controlType)
     }
     //check if a control is pressed, and move
-    update(roadBorders) {
+    update(roadBorders, traffic) {
         if (!this.damaged) { //if the car is not damaged
             this.#move();
             this.polygon=this.#createPolygon();
-            this.damaged=this.#assessDamage(roadBorders);
+            this.damaged = this.#assessDamage(roadBorders, traffic); //we assess damage with traffic
         }
         if (this.sensor) {
-            this.sensor.update(roadBorders); //only update the sensor, if the property exists
+            this.sensor.update(roadBorders, traffic); //only update the sensor, if the property exists
         }
 
     }
 
-    #assessDamage(roadBorders){
+    #assessDamage(roadBorders, traffic) {
         for(let i=0;i<roadBorders.length;i++){
             if(polysIntersect(this.polygon,roadBorders[i])){
+                return true;
+            }
+        }
+
+        for (let i = 0; i < traffic.length; i++) { //when we touch the car we crash
+            if (polysIntersect(this.polygon, traffic[i].polygon)) {
                 return true;
             }
         }

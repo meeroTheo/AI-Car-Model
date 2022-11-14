@@ -14,9 +14,9 @@ animate();
 
 function animate() {
     for (let i = 0; i < traffic.length; i++) {
-        traffic[i].update(road.borders);
+        traffic[i].update(road.borders, []);
     }
-    car.update(road.borders); //pass the road borders to the car
+    car.update(road.borders, traffic); //pass the road borders to the car
 
     canvas.height = window.innerHeight;
 
