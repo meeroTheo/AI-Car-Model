@@ -28,13 +28,41 @@ class Level {
             for (let j = 0; j < level.outputs.length; j++) {
                 //for every input output pair, set the weight to a value between -1 and 1
                 //negative weights essentially tell us which direction NOT to move
+                //Ex. if we see something with the front sensor, we should turn to avoid collision
+                //the negative weight connected to the sensor on the right would tell us NOT to turn right(thus left)
                 level.weights[i][j] = Math.random() * 2 - 1
             }
         }
-        for (let i = 0; i < level.biases.length; i++) {
+        for (let i = 0; i < level.biases.length; i++) { 
+            //biases are a constant which is added to the product of the weights and inputs
+            //provide every node with a trainable bias
             level.biases[i] = Math.random() * 2 - 1;
 
         }
     }
 
+    static feedForward(givenInputs, level) {
+        //feed forward is the process of computing the output of a network
+        for (let i = 0; i < level.inputs.length; i++) {
+            //set level inputs to the given inputs (values that come from the car sensors)
+            level.inputs[i] = givenInputs[i];
+        }
+
+        for (let i = 0; i < level.outputs.length; i++) {
+            //calculate the sum between the value of the inputs and the weights
+
+            let sum = 0;
+            for (let j = 0; j < level.inputs.length; j++) {
+                //add the product of the jth input and its corresponding weight to the sum of 1 particular output
+                sum += level.inputs[j] * level.weights[j][i];
+            }
+            if (sum > level.biases[i]) {
+                //if the sum is greater than the bias, the output is 1 because the neuron fires
+                level.outputs[i] = 1;
+            } else {
+                level.outputs[i] = 0;
+            }
+        }
+        return level.outputs;
+    }
 }
