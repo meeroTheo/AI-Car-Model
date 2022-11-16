@@ -32,3 +32,4 @@ fitness function
 - we use y value for best car, but we can use any function
 - penalize if not in the center of the lane (another fitness function)
 - work with going through curves
+- some genetic algorithms use crossover (take two networks and combine them)

@@ -1,26 +1,28 @@
 const carCanvas = document.getElementById("carCanvas");
 carCanvas.width = 200;
 
-const networkCanvas = document.getElementById("networkCanvas");
-networkCanvas.width = 300;
+//const networkCanvas = document.getElementById("networkCanvas");
+//networkCanvas.width = 300;
 
 //Reference to canvas context that contains
 //all the drawing methods
 const carCtx = carCanvas.getContext("2d");
-const networkCtx = networkCanvas.getContext("2d");
+//const networkCtx = networkCanvas.getContext("2d");
 
 const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
 
 const N = 100;
 const cars = generateCars(N); //generate 100 cars
 let bestCar = cars[0]; //will update on every frame
+//get mutate value from html
+const mutateValue = document.getElementById("mutateValue");
 if (localStorage.getItem("bestBrain")) { //we can still get a previous brain from local storage
     for (let i = 0; i < cars.length; i++) {
         cars[i].brain = JSON.parse(localStorage.getItem("bestBrain")); //parse the brain from local storage
         if (i != 0) {
             //the brain in local storage will be kept, when i=0 (best car)
             //for all the other ones, mutate
-            NeuralNetwork.mutate(cars[i].brain, 0.1); //0.2 is the amount factor
+            NeuralNetwork.mutate(cars[i].brain, mutateValue); //0.2 is the amount factor
         }
     }
 
@@ -67,7 +69,7 @@ function animate() {
 
 
     carCanvas.height = window.innerHeight;
-    networkCanvas.height = window.innerHeight;
+    //networkCanvas.height = window.innerHeight;
     //make it so that the car is always in the center of the screen
     carCtx.save();
     carCtx.translate(0, -bestCar.y + carCanvas.height * 0.7);
