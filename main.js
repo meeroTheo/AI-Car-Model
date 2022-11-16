@@ -14,7 +14,7 @@ const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
 const N = 100;
 const cars = generateCars(N); //generate 100 cars
 let bestCar = cars[0]; //will update on every frame
-if (localStorage.getItem("bestBrain")) {
+if (localStorage.getItem("bestBrain")) { //we can still get a previous brain from local storage
     bestCar.brain = JSON.parse(localStorage.getItem("bestBrain")); //parse the brain from local storage
 }
 
