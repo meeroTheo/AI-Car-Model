@@ -14,3 +14,15 @@ How do our Brains work - Artifical Neural Networks
 
 - We have levels, each level has a floor, ceiling and connections in between.
 - The ceiling of the first floor is the floor of the second floor
+
+
+Hyperplane equation
+- in a simple network this is the line equation
+ws + b = 0, where w is the weight, s is the sensor input, and b is the bias
+- the slope of the line is the weight, the bias is the y-intercept
+- For each output we have a hyperplane equation ( the neuron will fire if the value of the function is greater than 0)
+- With two sensors, we have a plane equation
+- neurons are allowed to fire anytime, just at different rates
+ - Linearly separable cases vs. non-linearly separable cases
+- Linearly separable cases are when the data can be separated by a line
+- Non-linearly separable cases are when the data cannot be separated by a line

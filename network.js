@@ -1,5 +1,26 @@
-//1:43
+class NeuralNetwork {
+    constructor(neuronCounts) {
+        //neuron counts is an array of the number of neurons in each layer
+        this.levels = [];
 
+        for (let i = 0; i < neuronCounts.length - 1; i++) {
+            //specify the input and output counts
+            this.levels.push(new Level(neuronCounts[i], neuronCounts[i + 1]));
+        }
+
+    }
+    static feedForward(givenInputs, network) {
+        //putting in the output of the previous level into the new level as the input
+        //the final outputs tell us whether the car should move forward, left, or right
+        let outputs = Level.feedForward(givenInputs, network.levels[0]); //calls the first level to produce outputs
+
+        for (let i = 1; i < network.levels.length; i++) {
+            outputs = Level.feedForward(outputs, network.levels[i]); //calls the next level to produce outputs
+        }
+
+        return outputs;
+    }
+}
 class Level {
     //level has a layer of input and output neurons
     constructor(inputCount, outputCount) {
