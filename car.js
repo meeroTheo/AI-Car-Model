@@ -16,6 +16,7 @@ class Car {
         this.damaged=false;
         if (controlType != "DUMMY") {
             this.sensor = new Sensor(this); //instance of sensor class
+            this.brain = new NeuralNetwork([this.sensor.rayCount, 6, 4]) //input layer (ray count), hidden layer (6), output layer (4) forward,backward,left,right
         }
         this.controls = new Controls(controlType)
     }
@@ -28,6 +29,12 @@ class Car {
         }
         if (this.sensor) {
             this.sensor.update(roadBorders, traffic); //only update the sensor, if the property exists
+            //take off the offseets from sensor readings (readings has x, y, offset of where the reading is )
+            //if null, sensor goes as far as it can and doesnt read
+            //1 - s.offset the neurons will recieve low values if the object is far away, and high values if the object is close
+            //when we point a flashlight, as we get closer the light gets brighter
+            const offsets = this.sensor.readings.map(s => s == null ? 0 : 1 - s.offset);
+            const outputs = NeuralNetwork.feedForward(offsets, this.brain);
         }
 
     }
