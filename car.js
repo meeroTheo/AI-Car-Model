@@ -14,6 +14,8 @@ class Car {
 
         this.angle = 0;
         this.damaged=false;
+        this.useBrain = controlType == "AI"; //if the control type is AI, then use the brain
+
         if (controlType != "DUMMY") {
             this.sensor = new Sensor(this); //instance of sensor class
             this.brain = new NeuralNetwork([this.sensor.rayCount, 6, 4]) //input layer (ray count), hidden layer (6), output layer (4) forward,backward,left,right
@@ -34,7 +36,14 @@ class Car {
             //1 - s.offset the neurons will recieve low values if the object is far away, and high values if the object is close
             //when we point a flashlight, as we get closer the light gets brighter
             const offsets = this.sensor.readings.map(s => s == null ? 0 : 1 - s.offset);
-            const outputs = NeuralNetwork.feedForward(offsets, this.brain);
+            const outputs = NeuralNetwork.feedForward(offsets, this.brain); //feedforward the neural network
+
+            if (this.useBrain) { //if the car is using the brain
+                this.controls.forward = outputs[0];
+                this.controls.left = outputs[1];
+                this.controls.right = outputs[2];
+                this.controls.reverse = outputs[3];
+            }
         }
 
     }
