@@ -26,3 +26,9 @@ ws + b = 0, where w is the weight, s is the sensor input, and b is the bias
  - Linearly separable cases vs. non-linearly separable cases
 - Linearly separable cases are when the data can be separated by a line
 - Non-linearly separable cases are when the data cannot be separated by a line
+
+What is the best car?
+fitness function
+- we use y value for best car, but we can use any function
+- penalize if not in the center of the lane (another fitness function)
+- work with going through curves

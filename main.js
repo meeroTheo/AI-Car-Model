@@ -15,12 +15,28 @@ const N = 100;
 const cars = generateCars(N); //generate 100 cars
 let bestCar = cars[0]; //will update on every frame
 if (localStorage.getItem("bestBrain")) { //we can still get a previous brain from local storage
-    bestCar.brain = JSON.parse(localStorage.getItem("bestBrain")); //parse the brain from local storage
+    for (let i = 0; i < cars.length; i++) {
+        cars[i].brain = JSON.parse(localStorage.getItem("bestBrain")); //parse the brain from local storage
+        if (i != 0) {
+            //the brain in local storage will be kept, when i=0 (best car)
+            //for all the other ones, mutate
+            NeuralNetwork.mutate(cars[i].brain, 0.1); //0.2 is the amount factor
+        }
+    }
+
+
 }
 
 
 const traffic = [
-    new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY", 2) //does not hold control
+    new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY", 2), //does not hold control
+    new Car(road.getLaneCenter(0), -300, 30, 50, "DUMMY", 2),
+    new Car(road.getLaneCenter(2), -300, 30, 50, "DUMMY", 2),
+    new Car(road.getLaneCenter(0), -500, 30, 50, "DUMMY", 2),
+    new Car(road.getLaneCenter(1), -500, 30, 50, "DUMMY", 2),
+    new Car(road.getLaneCenter(1), -700, 30, 50, "DUMMY", 2),
+    new Car(road.getLaneCenter(2), -700, 30, 50, "DUMMY", 2),
+
 ];
 //start to animate the car
 animate();

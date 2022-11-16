@@ -20,6 +20,26 @@ class NeuralNetwork {
 
         return outputs;
     }
+
+    static mutate(network, amount = 1) { //genetic algorithm
+        //amount is 100%, it randomizes the weights
+        //a lower amount would be 10%, it would only randomize 10% of the weights
+        //mutate is essentially randomizing the weights for the entire network
+        //if the amount is 0, then the biases and weights stay the same
+        //if the value is in between, it works away from the original value
+
+        network.levels.forEach(level => {
+            for (let i = 0; i < level.biases.length; i++) {
+                level.biases[i] = lerp(level.biases[i], Math.random() * 2 - 1, amount);
+            }
+            for (let i = 0; i < level.weights.length; i++) {
+                for (let j = 0; j < level.weights[i].length; j++) {
+                    level.weights[i][j] = lerp(level.weights[i][j], Math.random() * 2 - 1, amount);
+                }
+
+            }
+        });
+    }
 }
 class Level {
     //level has a layer of input and output neurons
